@@ -12,5 +12,12 @@ namespace OrderWebApp.Controllers
         {
             return Ok("OK");
         }
+
+        [HttpPost]
+        [Route("throw-error")]
+        public IActionResult ThrowError()
+        {
+            throw new Exception("Some exception message.");
+        }
     }
 }

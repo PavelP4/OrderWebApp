@@ -51,7 +51,7 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.UseExceptionHandler();
+        //app.UseExceptionHandler();
 
         app.UseHttpsRedirection();
 
