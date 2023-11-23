@@ -34,8 +34,7 @@ public class Startup
 
         services.AddControllers();
 
-        services.AddDbContext<AppDbContext>(options => 
-            options
+        services.AddDbContext<AppDbContext>(options => options
                 .UseSqlServer(_environment.GetDbConnectionString())
                 .UseLazyLoadingProxies());
         services.AddScoped(typeof(BaseRepository<>));
@@ -46,11 +45,11 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (_environment.IsDevelopment())
-        {
+        //if (_environment.IsDevelopment())
+        //{
             app.UseSwagger();
             app.UseSwaggerUI();
-        }
+        //}
 
         app.UseHttpsRedirection();
 
