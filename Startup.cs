@@ -29,18 +29,19 @@ public class Startup
 
         services.AddSingleton(mapper);
 
-        services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
+        services.AddControllers();
+
         services.AddDbContext<AppDbContext>(options => 
             options
-                .UseSqlServer(_configuration.GetDatabaseConnection())
+                .UseSqlServer(_environment.GetDbConnectionString())
                 .UseLazyLoadingProxies());
-
         services.AddScoped(typeof(BaseRepository<>));
 
         services.AddTransient<OrderService>();
+        services.AddTransient<StoreService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
