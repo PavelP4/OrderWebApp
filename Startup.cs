@@ -45,11 +45,13 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        //if (_environment.IsDevelopment())
-        //{
+        if (_environment.IsDevelopment())
+        {
             app.UseSwagger();
             app.UseSwaggerUI();
-        //}
+        }
+
+        app.UseExceptionHandler();
 
         app.UseHttpsRedirection();
 
