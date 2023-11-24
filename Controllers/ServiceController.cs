@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrderWebApp.Exceptions;
 
 namespace OrderWebApp.Controllers
 {
@@ -6,6 +7,13 @@ namespace OrderWebApp.Controllers
     [ApiController]
     public class ServiceController : ControllerBase
     {
+        private readonly ILogger<ServiceController> _logger;
+
+        public ServiceController(ILogger<ServiceController> logger)
+        { 
+            _logger = logger;
+        }
+
         [HttpGet]
         [Route("ok")]
         public IActionResult GetOk()
@@ -14,10 +22,26 @@ namespace OrderWebApp.Controllers
         }
 
         [HttpPost]
-        [Route("throw-error")]
-        public IActionResult ThrowError()
+        [Route("throw-unknown-error")]
+        public IActionResult ThrowUnknownError()
         {
-            throw new Exception("Some exception message.");
+            throw new UnknownException("Some unknown exception message.");
+        }
+
+        [HttpPost]
+        [Route("throw-known-error")]
+        public IActionResult ThrowKnownError()
+        {
+            throw new AppException("Some app exception message.");
+        }
+
+        [HttpPost]
+        [Route("log-message")]
+        public IActionResult LogMessage()
+        {
+            _logger.LogInformation("Some info message.");
+
+            return Ok("Logged");
         }
     }
 }

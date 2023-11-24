@@ -6,7 +6,7 @@ var host = Host.CreateDefaultBuilder(args)
     .ConfigureWebHostDefaults(webBuilder =>
     {
         webBuilder.UseStartup<Startup>();
-        webBuilder.ConfigureAppConfiguration(confBuilder => confBuilder.AddEnvironmentVariables(prefix: "ASPNETCORE_"));
+        webBuilder.ConfigureAppConfiguration(confBuilder => confBuilder.AddEnvironmentVariables());
     })
     .Build();
 

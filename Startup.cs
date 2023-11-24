@@ -51,12 +51,15 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        //app.UseExceptionHandler();
+        app.UseExceptionHandler(!_environment.IsProduction());
 
         app.UseHttpsRedirection();
 
         app.UseRouting();
         app.UseAuthorization();
+
+        app.UseMiddleware<KnownExceptionsHandlerMeddleware>();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
