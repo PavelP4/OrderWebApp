@@ -3,6 +3,7 @@ using OrderWebApp;
 using OrderWebApp.Infrastructure;
 
 var host = Host.CreateDefaultBuilder(args)
+    .ConfigureLogging(builder => builder.AddAzureWebAppDiagnostics())
     .ConfigureWebHostDefaults(webBuilder =>
     {
         webBuilder.UseStartup<Startup>();

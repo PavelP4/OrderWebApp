@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.AzureAppServices;
 using OrderWebApp.Extentions;
 using OrderWebApp.Infrastructure;
 using OrderWebApp.Mappings;
@@ -41,17 +42,31 @@ public class Startup
 
         services.AddTransient<OrderService>();
         services.AddTransient<StoreService>();
+
+        services.PostConfigure<LoggerFilterOptions>(options =>
+        {
+            var originalRule = options.Rules.FirstOrDefault(x => x.ProviderName == typeof(FileLoggerProvider).FullName);
+            if (originalRule != null)
+            {
+                options.Rules.Remove(originalRule);
+
+                options.AddFilter<FileLoggerProvider>(category: null, level: LogLevel.Error);
+                options.AddFilter<FileLoggerProvider>(category: "OrderWebApp", level: originalRule.LogLevel.Value);
+            }
+        });
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
     {
+        app.UseExceptionHandler(!_environment.IsProduction());
+
         if (_environment.IsDevelopment())
         {
+            //app.UseDeveloperExceptionPage();
+
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
-        app.UseExceptionHandler(!_environment.IsProduction());
 
         app.UseHttpsRedirection();
 

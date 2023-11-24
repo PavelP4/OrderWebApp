@@ -39,7 +39,12 @@ namespace OrderWebApp.Controllers
         [Route("log-message")]
         public IActionResult LogMessage()
         {
+            _logger.LogTrace("Some trace message.");
+            _logger.LogDebug("Some debug message.");
             _logger.LogInformation("Some info message.");
+            _logger.LogWarning("Some warning message.");
+            _logger.LogError("Some error message.");
+            _logger.LogCritical("Some critical message.");
 
             return Ok("Logged");
         }
