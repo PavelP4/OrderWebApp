@@ -14,13 +14,18 @@ var host = Host.CreateDefaultBuilder(args)
 using (var scope = host.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var environment = services.GetRequiredService<IWebHostEnvironment>();
-    
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
+    logger.LogInformation("Start db migration check.");
+
     var dbContext = services.GetRequiredService<AppDbContext>();
     if (dbContext.Database.GetPendingMigrations().Any())
     {
         dbContext.Database.Migrate();
+        logger.LogInformation("Db migration is applied successfully.");
     }
+
+    logger.LogInformation("End db migration check.");
 }
 
 host.Run();

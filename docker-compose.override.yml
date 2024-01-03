@@ -1,0 +1,27 @@
+version: '2.4'
+services:
+  order-webapp-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=44003
+      - ASPNETCORE_DATABASE_CONNECTION_STRING=Server=orderwebapp_sqlserver; Database=OrderWebApp; User Id=sa; Password=@Dmin#2024; MultipleActiveResultSets=true; TrustServerCertificate=True;
+    ports:
+      - "44003:443"
+      - "44080:80"
+    volumes:
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+
+  order-webapp-sqlserver:
+    environment:
+      - SA_PASSWORD=@Dmin#2024
+      - ACCEPT_EULA=Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql:/var/lib/mssql/data
+
+volumes:
+  mssql:
+    driver: local

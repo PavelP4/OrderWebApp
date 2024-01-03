@@ -6,6 +6,7 @@ using OrderWebApp.Infrastructure;
 using OrderWebApp.Mappings;
 using OrderWebApp.Repositories;
 using OrderWebApp.Services;
+using Microsoft.Extensions.Logging.AzureAppServices;
 
 namespace OrderWebApp;
 
@@ -43,6 +44,7 @@ public class Startup
         services.AddTransient<OrderService>();
         services.AddTransient<StoreService>();
 
+        //https://mderriey.com/2020/08/08/a-look-at-the-aspnet-core-logging-provider-for-app-service/
         services.PostConfigure<LoggerFilterOptions>(options =>
         {
             var originalRule = options.Rules.FirstOrDefault(x => x.ProviderName == typeof(FileLoggerProvider).FullName);
@@ -73,7 +75,7 @@ public class Startup
         app.UseRouting();
         app.UseAuthorization();
 
-        app.UseMiddleware<KnownExceptionsHandlerMeddleware>();
+        app.UseMiddleware<KnownExceptionsHandlerMiddleware>();
 
         app.UseEndpoints(endpoints =>
         {

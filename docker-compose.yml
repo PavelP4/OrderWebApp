@@ -1,0 +1,13 @@
+version: '2.4'
+
+services:
+  order-webapp-api:
+    image: ${DOCKER_REGISTRY-}orderwebapp
+    container_name: order_webapp_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  order-webapp-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: orderwebapp_sqlserver

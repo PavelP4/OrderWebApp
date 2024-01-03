@@ -4,11 +4,11 @@ using System.Text.Json;
 
 namespace OrderWebApp
 {
-    public class KnownExceptionsHandlerMeddleware
+    public class KnownExceptionsHandlerMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public KnownExceptionsHandlerMeddleware(RequestDelegate next)
+        public KnownExceptionsHandlerMiddleware(RequestDelegate next)
         { 
             _next = next;
         }
